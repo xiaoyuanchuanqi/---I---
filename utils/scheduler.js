@@ -70,7 +70,7 @@ let scheduler = {
             let options = tasks[taskName].options || {}
             let willTime = moment(randomDate(options));
             // 任务的随机延迟时间
-            let waitTime = options.dev ? 0 : Math.floor(Math.random() * (options.waitTime || 190))
+            let waitTime = options.dev ? 0 : Math.floor(Math.random() * (options.waitTime || 300))
             if (options) {
                 if (options.isCircle || options.dev) {
                     willTime = moment().startOf('days');
@@ -90,7 +90,7 @@ let scheduler = {
             queues.push({
                 taskName: taskName,
                 taskState: 0,
-                willTime: willTime.format('YYYY-MM-DD HH:mm:ss'),
+                willTime: willTime.format('YYYY-MM-DD 00:00:00'),
                 waitTime: waitTime
             })
         }
@@ -307,7 +307,7 @@ let scheduler = {
                     try {
                         if (task.waitTime) {
                             console.info('延迟执行', task.taskName, task.waitTime, 'seconds')
-                            await new Promise((resolve, reject) => setTimeout(resolve, task.waitTime * 480))
+                            await new Promise((resolve, reject) => setTimeout(resolve, task.waitTime * 1000))
                         }
 
                         let ttt = tasks[task.taskName]
